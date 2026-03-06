@@ -14,6 +14,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
 
 @Service
 public class ApplicationServiceImpl implements ApplicationService {
@@ -25,15 +27,17 @@ public class ApplicationServiceImpl implements ApplicationService {
     private UserRepository userRepository;
 
     @Autowired
-    private UserMapper mapper;
+    private UserMapper userMapper;
 
     @Autowired
     private UserService userService;
+
 
     private static final Logger LOGGER = LoggerFactory.getLogger(ApplicationServiceImpl.class);
 
     @Override
     public ResponseEntity<UserDto> findUserByBookingId(Long id) {
+        LOGGER.info("inzializiating process");
 
         BookingEntity booking = bookingRepository.findById(id)
                 .orElseThrow(EntityNotPresentException::new);
@@ -43,12 +47,11 @@ public class ApplicationServiceImpl implements ApplicationService {
         if (user == null) {
             throw new NoUserForBookingException();
         }
-
         try {
-            return ResponseEntity.ok(mapper.entityToDto(user));
+            return ResponseEntity.ok(userMapper.entityToDto(user));
 
         } catch (MappingException e) {
-            LOGGER.error("Error creating UserDto", e);
+            LOGGER.error("Error parsing user", e);
             throw e;
         }
     }
@@ -68,4 +71,36 @@ public class ApplicationServiceImpl implements ApplicationService {
                 .status(HttpStatus.CREATED)
                 .body(responseDto);
     }
+
+    @Override
+    public ResponseEntity<UserDto> findUserByUserId(Long id) {
+
+        if (id == null) {
+            throw new MissingParamException();
+        }
+        UserDto userDto = new UserDto();
+        UserEntity user = userRepository.findById(id).orElseThrow(() ->
+                new QueryException("no user found for this id: " + id));
+        if (user != null) {
+            userDto = userMapper.entityToDto(user);
+        }
+        return ResponseEntity.ok(userDto);
+    }
+
+
+    @Transactional
+    @Override
+    public ResponseEntity<ResponseDto> updateUser(Long id, UserDto userDto) {
+
+        if (userDto == null) {
+            throw new InvalidBodyException();
+        }
+        UserEntity user = userRepository.findById(id).orElseThrow(()->
+                new QueryException("no user found for this id: " + id));
+        userMapper.updateEntityFromDto(userDto, user);
+        userRepository.save(user);
+        return ResponseEntity.ok(new ResponseDto("User updated"));
+    }
+
+
 }

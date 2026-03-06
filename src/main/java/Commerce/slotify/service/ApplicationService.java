@@ -9,4 +9,8 @@ public interface ApplicationService {
     ResponseEntity<UserDto> findUserByBookingId (Long id);
 
     ResponseEntity<ResponseDto> createUser(UserDto userDto);
+
+    ResponseEntity<UserDto> findUserByUserId(Long id);
+
+    ResponseEntity<ResponseDto> updateUser(Long id, UserDto userDto);
 }

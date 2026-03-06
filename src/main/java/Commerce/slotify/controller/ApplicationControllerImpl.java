@@ -14,13 +14,23 @@ public class ApplicationControllerImpl implements ApplicationController {
     private ApplicationService service;
 
     @Override
-    public ResponseEntity<UserDto> findUserByPrenotation(Long bookingId) {
+    public ResponseEntity<UserDto> findUserByBooking(Long bookingId) {
         return service.findUserByBookingId(bookingId);
     }
 
     @Override
     public ResponseEntity<ResponseDto> createUser(UserDto userDto) {
         return service.createUser(userDto);
+    }
+
+    @Override
+    public ResponseEntity<UserDto> findUserByUserId(Long id) {
+        return service.findUserByUserId(id);
+    }
+
+    @Override
+    public ResponseEntity<ResponseDto> updateUser(Long id, UserDto userDto) {
+        return service.updateUser(id, userDto);
     }
 
 
