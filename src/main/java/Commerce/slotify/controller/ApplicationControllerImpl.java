@@ -33,5 +33,10 @@ public class ApplicationControllerImpl implements ApplicationController {
         return service.updateUser(id, userDto);
     }
 
+    @Override
+    public ResponseEntity<ResponseDto> deleteUser(Long id) {
+        return service.deleteUser(id);
+    }
+
 
 }

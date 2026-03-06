@@ -11,6 +11,7 @@ import Commerce.slotify.repository.UserRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataAccessException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -78,6 +79,9 @@ public class ApplicationServiceImpl implements ApplicationService {
         if (id == null) {
             throw new MissingParamException();
         }
+        if (!userRepository.existsById(id)) {
+            throw new EntityNotPresentException();
+        }
         UserDto userDto = new UserDto();
         UserEntity user = userRepository.findById(id).orElseThrow(() ->
                 new QueryException("no user found for this id: " + id));
@@ -95,6 +99,11 @@ public class ApplicationServiceImpl implements ApplicationService {
         if (userDto == null) {
             throw new InvalidBodyException();
         }
+
+        if (!userRepository.existsById(id)) {
+            throw new EntityNotPresentException();
+        }
+
         UserEntity user = userRepository.findById(id).orElseThrow(()->
                 new QueryException("no user found for this id: " + id));
         userMapper.updateEntityFromDto(userDto, user);
@@ -102,5 +111,21 @@ public class ApplicationServiceImpl implements ApplicationService {
         return ResponseEntity.ok(new ResponseDto("User updated"));
     }
 
+    @Override
+    public ResponseEntity<ResponseDto> deleteUser(Long id) {
+        if (id == null){
+            throw new MissingParamException();
+        }
+        if (!userRepository.existsById(id)) {
+            throw new EntityNotPresentException();
+        }
+        try {
+            userRepository.deleteById(id);
+        } catch (DataAccessException e) {
+            LOGGER.error("Error deleting user with id: " + id, e);
+            throw new QueryException();
+        }
+        return ResponseEntity.ok(new ResponseDto("user eliminated with success"));
+    }
 
 }

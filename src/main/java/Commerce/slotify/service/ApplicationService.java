@@ -13,4 +13,6 @@ public interface ApplicationService {
     ResponseEntity<UserDto> findUserByUserId(Long id);
 
     ResponseEntity<ResponseDto> updateUser(Long id, UserDto userDto);
+
+    ResponseEntity<ResponseDto> deleteUser(Long id);
 }

@@ -21,5 +21,6 @@ public interface ApplicationController {
     @PutMapping("/update-user/{user-id}")
     ResponseEntity<ResponseDto> updateUser(@PathVariable("user-id") Long id, @RequestBody UserDto userDto);
 
-
+    @DeleteMapping("/delete-user/{user-id}")
+    ResponseEntity<ResponseDto> deleteUser(@PathVariable("user-id") Long id);
 }
