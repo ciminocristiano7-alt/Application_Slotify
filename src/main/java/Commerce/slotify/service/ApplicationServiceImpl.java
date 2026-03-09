@@ -1,10 +1,13 @@
 package Commerce.slotify.service;
 
+import Commerce.slotify.dto.BookingDto;
 import Commerce.slotify.dto.ResponseDto;
+import Commerce.slotify.dto.UserDto2;
 import Commerce.slotify.exception.*;
 import Commerce.slotify.dto.UserDto;
 import Commerce.slotify.entity.BookingEntity;
 import Commerce.slotify.entity.UserEntity;
+import Commerce.slotify.mapper.BookingMapper;
 import Commerce.slotify.mapper.UserMapper;
 import Commerce.slotify.repository.BookingRepository;
 import Commerce.slotify.repository.UserRepository;
@@ -12,6 +15,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -32,6 +36,9 @@ public class ApplicationServiceImpl implements ApplicationService {
 
     @Autowired
     private UserService userService;
+
+    @Autowired
+    private BookingMapper bookingMapper;
 
 
     private static final Logger LOGGER = LoggerFactory.getLogger(ApplicationServiceImpl.class);
@@ -91,7 +98,6 @@ public class ApplicationServiceImpl implements ApplicationService {
         return ResponseEntity.ok(userDto);
     }
 
-
     @Transactional
     @Override
     public ResponseEntity<ResponseDto> updateUser(Long id, UserDto userDto) {
@@ -116,16 +122,47 @@ public class ApplicationServiceImpl implements ApplicationService {
         if (id == null){
             throw new MissingParamException();
         }
-        if (!userRepository.existsById(id)) {
-            throw new EntityNotPresentException();
-        }
         try {
             userRepository.deleteById(id);
+        } catch (EmptyResultDataAccessException e) {
+            throw new EntityNotPresentException();
         } catch (DataAccessException e) {
-            LOGGER.error("Error deleting user with id: " + id, e);
+            LOGGER.error("Error deleting user with id: {}", id, e);
             throw new QueryException();
         }
         return ResponseEntity.ok(new ResponseDto("user eliminated with success"));
     }
+
+    @Override
+    public ResponseEntity<BookingDto> findBooking(Long id) {
+        if (id == null){
+            throw new MissingParamException();
+        }
+            BookingEntity bookingEntity = bookingRepository.findById(id).orElseThrow(() ->
+                    new QueryException("no user found for this id: " + id));
+
+        BookingDto bookingDto = bookingMapper.entityToDto(bookingEntity);
+        return ResponseEntity.ok(bookingDto);
+    }
+
+    @Override
+    public ResponseEntity<ResponseDto> createBooking(BookingDto bookingDto) {
+        if (bookingDto == null){
+            throw new InvalidBodyException();
+        }
+
+        BookingEntity bookingEntity = bookingMapper.dtoToEntity(bookingDto);
+        if (bookingEntity == null){
+            throw new MappingException();
+        }
+        try {
+            bookingRepository.save(bookingEntity);
+
+        }catch (QueryException e){
+            LOGGER.error("error during save" + e);
+        }
+        return ResponseEntity.ok(new ResponseDto("booking created with succes"));
+    }
+
 
 }

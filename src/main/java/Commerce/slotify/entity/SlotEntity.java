@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-@Table(name = "slots", schema = "gestionale")
+@Table(name = "slots", schema = "slotify_db")
 
 public class SlotEntity {
 

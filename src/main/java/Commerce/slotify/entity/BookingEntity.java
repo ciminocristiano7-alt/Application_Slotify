@@ -6,18 +6,22 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.util.List;
+import java.util.UUID;
 
 @Entity
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "prenotazioni", schema = "gestionale")
+@Table(name = "bookings", schema = "slotify_db")
 public class BookingEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)
     private Long id;
+
+    @Column(name = "booking_number", nullable = false, unique = true)
+    private String bookingNumber;
 
     @OneToMany(mappedBy = "booking")
     private List<SlotEntity> slots;
@@ -30,4 +34,10 @@ public class BookingEntity {
     @JoinColumn(name = "field_id")
     private FieldEntity field;
 
+    @PrePersist
+    private void generateBN() {
+        if (bookingNumber == null) {
+            bookingNumber = UUID.randomUUID().toString();
+        }
+    }
 }

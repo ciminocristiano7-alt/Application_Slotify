@@ -1,10 +1,13 @@
 package Commerce.slotify.controller;
 
+import Commerce.slotify.dto.BookingDto;
 import Commerce.slotify.dto.ResponseDto;
 import Commerce.slotify.dto.UserDto;
+import Commerce.slotify.dto.UserDto2;
 import Commerce.slotify.service.ApplicationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
@@ -36,6 +39,16 @@ public class ApplicationControllerImpl implements ApplicationController {
     @Override
     public ResponseEntity<ResponseDto> deleteUser(Long id) {
         return service.deleteUser(id);
+    }
+
+    @Override
+    public ResponseEntity<BookingDto> findBooking(Long id) {
+        return service.findBooking(id);
+    }
+
+    @Override
+    public ResponseEntity<ResponseDto> createBooking(BookingDto bookingDto) {
+        return service.createBooking(bookingDto);
     }
 
 

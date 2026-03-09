@@ -11,7 +11,7 @@ import java.util.List;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "campi", schema = "gestionale")
+@Table(name = "campi", schema = "slotify_db")
 public class FieldEntity {
 
     @Id

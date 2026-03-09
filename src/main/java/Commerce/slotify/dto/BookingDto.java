@@ -1,7 +1,7 @@
 package Commerce.slotify.dto;
 
-import Commerce.slotify.entity.FieldEntity;
-import Commerce.slotify.entity.SlotEntity;
+import jakarta.annotation.Nullable;
+import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -14,8 +14,16 @@ import java.util.List;
 
 public class BookingDto {
 
-    private List<SlotDto> slots;
-    private Long fieldId;
+    @Nullable
+    private String bookingNumber;
 
+    @NotNull
+    private List<SlotDto> slots;
+
+    @NotNull
+    private FieldDto field;
+
+    @NotNull
+    private UserDto2 userDto2;
 
 }
