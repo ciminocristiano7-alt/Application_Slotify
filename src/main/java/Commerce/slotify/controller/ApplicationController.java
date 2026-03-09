@@ -33,4 +33,7 @@ public interface ApplicationController {
 
     @PutMapping("/update-booking")
     ResponseEntity<ResponseDto> updateBooking(@RequestBody BookingDto2 bookingDto2);
+
+    @DeleteMapping("/delete-booking")
+    ResponseEntity<ResponseDto> deleteBooking(@RequestParam Long id);
 }
