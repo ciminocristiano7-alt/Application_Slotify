@@ -36,4 +36,5 @@ public interface ApplicationController {
 
     @DeleteMapping("/delete-booking")
     ResponseEntity<ResponseDto> deleteBooking(@RequestParam Long id);
+
 }
