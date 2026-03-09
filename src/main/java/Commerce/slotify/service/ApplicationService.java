@@ -1,9 +1,6 @@
 package Commerce.slotify.service;
 
-import Commerce.slotify.dto.BookingDto;
-import Commerce.slotify.dto.ResponseDto;
-import Commerce.slotify.dto.UserDto;
-import Commerce.slotify.dto.UserDto2;
+import Commerce.slotify.dto.*;
 import org.springframework.http.ResponseEntity;
 
 public interface ApplicationService {
@@ -21,5 +18,7 @@ public interface ApplicationService {
     ResponseEntity<BookingDto> findBooking(Long id);
 
     ResponseEntity<ResponseDto> createBooking(BookingDto bookingDto);
+
+    ResponseEntity<ResponseDto> updateBooking(BookingDto2 bookingDto2);
 
 }

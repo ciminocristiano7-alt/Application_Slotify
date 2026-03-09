@@ -1,10 +1,7 @@
 package Commerce.slotify.service;
 
-import Commerce.slotify.dto.BookingDto;
-import Commerce.slotify.dto.ResponseDto;
-import Commerce.slotify.dto.UserDto2;
+import Commerce.slotify.dto.*;
 import Commerce.slotify.exception.*;
-import Commerce.slotify.dto.UserDto;
 import Commerce.slotify.entity.BookingEntity;
 import Commerce.slotify.entity.UserEntity;
 import Commerce.slotify.mapper.BookingMapper;
@@ -162,6 +159,15 @@ public class ApplicationServiceImpl implements ApplicationService {
             LOGGER.error("error during save" + e);
         }
         return ResponseEntity.ok(new ResponseDto("booking created with succes"));
+    }
+
+    @Override
+    public ResponseEntity<ResponseDto> updateBooking(BookingDto2 bookingDto2) {
+        if (bookingDto2 == null){
+            throw new InvalidBodyException();
+        }
+
+        return null;
     }
 
 

@@ -1,10 +1,8 @@
 package Commerce.slotify.controller;
 
-import Commerce.slotify.dto.BookingDto;
-import Commerce.slotify.dto.ResponseDto;
-import Commerce.slotify.dto.UserDto;
-import Commerce.slotify.dto.UserDto2;
+import Commerce.slotify.dto.*;
 import Commerce.slotify.service.ApplicationService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -51,5 +49,9 @@ public class ApplicationControllerImpl implements ApplicationController {
         return service.createBooking(bookingDto);
     }
 
+    @Override
+    public ResponseEntity<ResponseDto> updateBooking(BookingDto2 bookingDto2) {
+        return service.updateBooking(bookingDto2);
+    }
 
 }
