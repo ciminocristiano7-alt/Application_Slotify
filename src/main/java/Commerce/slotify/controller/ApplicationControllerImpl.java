@@ -1,10 +1,13 @@
 package Commerce.slotify.controller;
 
+import Commerce.slotify.dto.BookingDto;
 import Commerce.slotify.dto.ResponseDto;
 import Commerce.slotify.dto.UserDto;
+import Commerce.slotify.dto.UserDto2;
 import Commerce.slotify.service.ApplicationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
@@ -14,13 +17,38 @@ public class ApplicationControllerImpl implements ApplicationController {
     private ApplicationService service;
 
     @Override
-    public ResponseEntity<UserDto> findUserByPrenotation(Long bookingId) {
+    public ResponseEntity<UserDto> findUserByBooking(Long bookingId) {
         return service.findUserByBookingId(bookingId);
     }
 
     @Override
     public ResponseEntity<ResponseDto> createUser(UserDto userDto) {
         return service.createUser(userDto);
+    }
+
+    @Override
+    public ResponseEntity<UserDto> findUserByUserId(Long id) {
+        return service.findUserByUserId(id);
+    }
+
+    @Override
+    public ResponseEntity<ResponseDto> updateUser(Long id, UserDto userDto) {
+        return service.updateUser(id, userDto);
+    }
+
+    @Override
+    public ResponseEntity<ResponseDto> deleteUser(Long id) {
+        return service.deleteUser(id);
+    }
+
+    @Override
+    public ResponseEntity<BookingDto> findBooking(Long id) {
+        return service.findBooking(id);
+    }
+
+    @Override
+    public ResponseEntity<ResponseDto> createBooking(BookingDto bookingDto) {
+        return service.createBooking(bookingDto);
     }
 
 

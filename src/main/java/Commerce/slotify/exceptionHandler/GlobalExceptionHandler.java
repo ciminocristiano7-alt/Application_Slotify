@@ -6,9 +6,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
-
 import java.time.LocalDateTime;
-
 
 @RestControllerAdvice
 public class GlobalExceptionHandler {
@@ -66,6 +64,17 @@ public class GlobalExceptionHandler {
                 LocalDateTime.now()
         );
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(errorBody);
+    }
+
+    @ExceptionHandler(MissingParamException.class)
+    public ResponseEntity<ErrorResponseDto> MissingParamException(MissingParamException e) {
+        ErrorResponseDto errorBody = new ErrorResponseDto(
+                "Bad Request",
+                400,
+                e.getMessage(),
+                LocalDateTime.now()
+        );
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorBody);
     }
     }
 

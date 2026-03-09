@@ -11,7 +11,7 @@ import java.util.List;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "users", schema = "gestionale")
+@Table(name = "users", schema = "slotify_db")
 public class UserEntity {
 
     @Id
@@ -24,5 +24,4 @@ public class UserEntity {
 
     @OneToMany(mappedBy = "user")
     private List<BookingEntity> bookingList;
-
 }
