@@ -1,9 +1,7 @@
 package Commerce.slotify.controller;
 
-import Commerce.slotify.dto.BookingDto;
-import Commerce.slotify.dto.ResponseDto;
-import Commerce.slotify.dto.UserDto;
-import Commerce.slotify.dto.UserDto2;
+import Commerce.slotify.dto.*;
+import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -31,6 +29,8 @@ public interface ApplicationController {
     ResponseEntity<BookingDto> findBooking(@PathVariable("booking-id") Long id);
 
     @PostMapping("/create-booking")
-    ResponseEntity<ResponseDto> createBooking(@RequestBody BookingDto bookingDto);
-    
+    ResponseEntity<ResponseDto> createBooking(@RequestBody @Valid BookingDto bookingDto);
+
+    @PutMapping("/update-booking")
+    ResponseEntity<ResponseDto> updateBooking(@RequestBody BookingDto2 bookingDto2);
 }
