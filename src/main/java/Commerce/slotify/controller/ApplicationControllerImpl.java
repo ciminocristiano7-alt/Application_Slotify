@@ -54,4 +54,9 @@ public class ApplicationControllerImpl implements ApplicationController {
         return service.updateBooking(bookingDto2);
     }
 
+    @Override
+    public ResponseEntity<ResponseDto> deleteBooking(Long id) {
+        return service.deleteBooking(id);
+    }
+
 }

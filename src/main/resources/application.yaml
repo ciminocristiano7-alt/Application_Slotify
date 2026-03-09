@@ -1,9 +1,15 @@
 spring:
   datasource:
-    url: jdbc:mysql://localhost:3306/slotify_db
-    username: root
-    password: root
-    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:postgresql://db.mnsgsfjlejvlbdvjmcjo.supabase.co:5432/postgres
+    username: postgres
+    password: "KU7xLfPQ2LOb3NAI"
+    driver-class-name: org.postgresql.Driver
+
   jpa:
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
     hibernate:
+      ddl-auto: none
     show-sql: true
+    properties:
+      hibernate:
+        format_sql: true

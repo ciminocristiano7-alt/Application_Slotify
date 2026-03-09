@@ -18,8 +18,4 @@ public interface UserMapper {
 
     void updateEntityFromDto(UserDto userDto, @MappingTarget UserEntity user);
 
-
-
-
-
 }

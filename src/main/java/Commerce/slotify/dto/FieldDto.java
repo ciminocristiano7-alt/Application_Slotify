@@ -8,7 +8,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class FieldDto {
 
-    private String filedType;
+    private String sport;
     private int startTime;
     private int endTime;
 }

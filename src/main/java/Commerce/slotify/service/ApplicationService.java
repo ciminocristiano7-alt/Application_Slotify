@@ -21,4 +21,5 @@ public interface ApplicationService {
 
     ResponseEntity<ResponseDto> updateBooking(BookingDto2 bookingDto2);
 
+    ResponseEntity<ResponseDto> deleteBooking(Long id);
 }

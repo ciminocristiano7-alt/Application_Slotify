@@ -166,9 +166,29 @@ public class ApplicationServiceImpl implements ApplicationService {
         if (bookingDto2 == null){
             throw new InvalidBodyException();
         }
+        try {
+            BookingEntity bookingEntity = bookingMapper.Dto2ToEntity(bookingDto2);
+            bookingRepository.save(bookingEntity);
 
-        return null;
+        } catch (Exception e) {
+            LOGGER.error("error during elaboration", e);
+            throw new RuntimeException(e);
+        }
+        return ResponseEntity.ok(new ResponseDto("booking updated with success"));
     }
 
+    @Override
+    public ResponseEntity<ResponseDto> deleteBooking(Long id) {
+        if (id == null){
+            throw new MissingParamException();
+        }
+        try {
+            bookingRepository.deleteById(id);
 
+        } catch (Exception e) {
+            LOGGER.error("error during booking elimination ", e);
+            throw new QueryException();
+        }
+        return ResponseEntity.ok(new ResponseDto("booking deleted with succes"));
+    }
 }
